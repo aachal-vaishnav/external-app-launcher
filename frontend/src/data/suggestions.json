@@ -1,0 +1,6 @@
+[
+  { "name":"Google Meet", "url":"https://meet.google.com", "icon":"https://via.placeholder.com/40", "category":"Work" },
+  { "name":"Zoom", "url":"https://zoom.us", "icon":"https://via.placeholder.com/40", "category":"Work" },
+  { "name":"Trello", "url":"https://trello.com", "icon":"https://via.placeholder.com/40", "category":"Tools" },
+  { "name":"GitHub", "url":"https://github.com", "icon":"https://via.placeholder.com/40", "category":"Tools" }
+]

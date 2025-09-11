@@ -1,0 +1,24 @@
+[
+  {
+    "id": "229b720e-e245-4045-8012-5683551c5311",
+    "username": "aachal",
+    "password": "$2b$10$8KnD2kUWXPc0.FPGVG9i1uD0Wnxfj8V/fv9n150IQMRyR5SqtN8CK",
+    "apps": [
+      {
+        "id": "d1060a2a-795e-4369-9e95-a28e11d80eaa",
+        "apps": [
+          {
+            "name": "Amazon",
+            "url": "https://www.amazon.in ",
+            "icon": "https://via.placeholder.com/40",
+            "category": "Fun"
+          }
+        ]
+      },
+      {
+        "id": "12f22f7e-d11a-4190-ab25-b60c83856ca5",
+        "apps": []
+      }
+    ]
+  }
+]
