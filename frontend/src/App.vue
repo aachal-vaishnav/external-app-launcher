@@ -60,6 +60,7 @@ import AppItem from "./components/AppItem.vue";
 import PreviewOverlay from "./components/IframePreview.vue";
 import { loadLocal, saveLocal, syncToServer } from "./services/sync";
 import suggestions from "./data/suggestions.json";
+import UsageDashboard from "./components/UsageDashboard.vue";
 
 // 🔥 New import
 import AppList from "./components/AppList.vue";
