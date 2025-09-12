@@ -1,0 +1,17 @@
+{
+  "abc12345": {
+    "pack": [
+      {
+        "name": "Amazon",
+        "url": "https://www.amazon.in",
+        "icon": "https://via.placeholder.com/40",
+        "category": "Fun"
+      }
+    ],
+    "createdAt": 1726000000000
+  },
+  "xyz67890": {
+    "pack": [],
+    "createdAt": 1726100000000
+  }
+}

@@ -5,19 +5,79 @@
     "password": "$2b$10$8KnD2kUWXPc0.FPGVG9i1uD0Wnxfj8V/fv9n150IQMRyR5SqtN8CK",
     "apps": [
       {
-        "id": "d1060a2a-795e-4369-9e95-a28e11d80eaa",
-        "apps": [
-          {
-            "name": "Amazon",
-            "url": "https://www.amazon.in ",
-            "icon": "https://via.placeholder.com/40",
-            "category": "Fun"
-          }
-        ]
+        "id": "qc7ntURlwkFF_p5Q5hPw-",
+        "name": "Google Meet",
+        "url": "https://meet.google.com",
+        "icon": "https://via.placeholder.com/40",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757683952874
       },
       {
-        "id": "12f22f7e-d11a-4190-ab25-b60c83856ca5",
-        "apps": []
+        "id": "--iIF5bO9uEhKiCz1Wezu",
+        "name": "Google Meet",
+        "url": "https://meet.google.com",
+        "icon": "https://via.placeholder.com/40",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757686270209
+      },
+      {
+        "id": "fiNxbnInn5L82rUqiHupH",
+        "name": "Google Meet",
+        "url": "https://meet.google.com",
+        "icon": "https://via.placeholder.com/40",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757686271874
+      },
+      {
+        "id": "JbaczLs_XIbjmgua1iD2u",
+        "name": "Google Meet",
+        "url": "https://meet.google.com",
+        "icon": "https://via.placeholder.com/40",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757686282039
+      },
+      {
+        "id": "Blvxlk4TtbQjCg7B_MlgW",
+        "icon": "",
+        "category": "Other",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757686421906
+      },
+      {
+        "id": "K0y02uVmWZh33Wzl9F1HU",
+        "name": "Amazon",
+        "url": "https://www.Amazon.com",
+        "icon": "Amazon",
+        "category": "Tools",
+        "favorite": false,
+        "useCount": 1,
+        "lastOpened": 1757686938708,
+        "createdAt": 1757686932748
+      },
+      {
+        "id": "blECxMn5V2X8ygLkXbjco",
+        "name": "Google Meet",
+        "url": "https://meet.google.com",
+        "icon": "https://via.placeholder.com/40",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757686952876
       }
     ]
   }

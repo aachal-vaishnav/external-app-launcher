@@ -1,38 +1,49 @@
 <template>
-  <div class="app">
-    <div v-if="!token" class="login">
-      <input v-model="username" placeholder="username"/><input v-model="password" type="password" placeholder="password"/>
+  <div id="app">
+    <h1>External App Launcher</h1>
+
+    <!-- Login / Register -->
+    <div v-if="!token" class="auth-panel">
+      <input v-model="username" placeholder="Username" />
+      <input type="password" v-model="password" placeholder="Password" />
       <button @click="register">Register</button>
       <button @click="login">Login</button>
     </div>
+
+    <!-- App Management -->
     <div v-else>
-      <header>
-        <h1>External App Launcher</h1>
-        <label><input type="checkbox" v-model="dark"/> Dark</label>
-        <button @click="exportPack">Export</button>
-        <input type="file" @change="importPack" />
-      </header>
+      <h2>Welcome, {{ username }}</h2>
+      <button @click="sync">Sync with Server</button>
+      <AddAppForm @add-app="createApp" />
 
-      <section class="top">
-        <div class="favorites">
-          <h3>Most used</h3>
-          <AppItem v-for="a in topUsed" :key="a.id" :app="a" @open-preview="openPreview" @remove="removeApp(a)"/>
-        </div>
-        <div class="suggestions">
-          <h3>Suggested</h3>
-          <div v-for="s in suggestions" :key="s.name">
-            <div>{{s.name}} <button @click="addSuggestion(s)">Add</button></div>
-          </div>
-        </div>
-      </section>
-
-      <AddAppForm @add-app="createApp"/>
-      <div class="grid">
-        <AppItem v-for="app in apps" :key="app.id" :app="app" @open-preview="openPreview" @edit="editApp" @remove="removeApp(app)"/>
+      <h3>Your Apps</h3>
+      <div v-for="app in apps" :key="app.id">
+        <AppItem
+          :app="{ ...app, icon: app.icon || getDefaultIcon(app.name) }"
+          @open-preview="openPreview"
+          @remove="removeApp(app)"
+        />
       </div>
 
-      <PreviewOverlay v-if="previewAppObj" :app="previewAppObj" :visible="previewVisible" @update:visible="previewVisible=$event" @used="onUsed" @closed="closePreview"/>
+      <h3>Suggestions</h3>
+      <div v-for="s in suggestions" :key="s.name">
+        <span>{{ s.name }}</span>
+        <button @click="addSuggestion({ ...s, icon: s.icon || getDefaultIcon(s.name) })">Add</button>
+      </div>
+
+      <div>
+        <button @click="exportPack">Export Pack</button>
+        <input type="file" @change="importPack" />
+      </div>
     </div>
+
+    <!-- Preview Overlay -->
+    <PreviewOverlay
+      :app="previewAppObj"
+      :visible="previewVisible"
+      @closed="closePreview"
+      @used="onUsed"
+    />
   </div>
 </template>
 
@@ -40,40 +51,138 @@
 import API, { setToken } from './services/api';
 import AddAppForm from './components/AddAppForm.vue';
 import AppItem from './components/AppItem.vue';
-import PreviewOverlay from './components/PreviewOverlay.vue';
+import PreviewOverlay from './components/Iframepreview.vue';
 import { loadLocal, saveLocal, syncToServer } from './services/sync';
 import suggestions from './data/suggestions.json';
 
 export default {
- components:{ AddAppForm, AppItem, PreviewOverlay },
- data(){ return { username:'', password:'', token:null, apps:[], previewAppObj:null, previewVisible:false, dark:false, suggestions } },
- computed:{
-   topUsed(){ return [...this.apps].sort((a,b)=> (b.useCount||0)-(a.useCount||0)).slice(0,3); }
- },
- methods:{
-  async register(){ await API.post('/api/auth/register',{ username:this.username, password:this.password }); alert('registered'); },
-  async login(){ const res = await API.post('/api/auth/login',{ username:this.username, password:this.password }); this.token = res.data.token; setToken(this.token); localStorage.setItem('eal_token', this.token); this.loadApps(); },
-  async loadApps(){ try{ const res = await API.get('/api/apps'); this.apps = res.data; saveLocal(this.apps); }catch(e){ this.apps = loadLocal(); },
-    // try sync when online
-    sync(){ syncToServer(this.apps); }
+  components: { AddAppForm, AppItem, PreviewOverlay },
+  data() {
+    return {
+      username: '',
+      password: '',
+      token: null,
+      apps: [],
+      previewAppObj: null,
+      previewVisible: false,
+      suggestions
+    };
   },
-  async createApp(app){ const res = await API.post('/api/apps', app); this.apps.push(res.data); saveLocal(this.apps); },
-  async removeApp(app){ await API.delete(`/api/apps/${app.id}`); this.apps = this.apps.filter(a=>a.id!==app.id); saveLocal(this.apps); },
-  openPreview(app){ this.previewAppObj = app; this.previewVisible = true; },
-  async onUsed(){ if(this.previewAppObj){ // increment local count
-    const a = this.apps.find(x=>x.id===this.previewAppObj.id); if(a){ a.useCount=(a.useCount||0)+1; a.lastOpened = Date.now(); saveLocal(this.apps); } await API.post(`/api/apps/${this.previewAppObj.id}/usage`); }},
-  closePreview(){ this.previewAppObj=null; this.previewVisible=false; },
-  addSuggestion(s){ this.createApp(s); },
-  exportPack(){ const blob=new Blob([JSON.stringify(this.apps,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='apps-pack.json'; a.click(); },
-  importPack(e){ const f=e.target.files[0]; const r=new FileReader(); r.onload=()=>{ const pack=JSON.parse(r.result); pack.forEach(p=>this.createApp(p)); }; r.readAsText(f); }
- }
-}
+  computed: {
+    topUsed() {
+      return [...this.apps]
+        .sort((a, b) => (b.useCount || 0) - (a.useCount || 0))
+        .slice(0, 3);
+    }
+  },
+  methods: {
+    getDefaultIcon(name) {
+    const n = (name || '').toLowerCase();
+
+    if (n.includes('google meet')) return '/src/assets/icons/google-meet.jpeg';
+    if (n.includes('zoom')) return '/src/assets/icons/zoom.png';
+    if (n.includes('trello')) return '/src/assets/icons/trello.png';
+    if (n.includes('github')) return '/src/assets/icons/github.png';
+    return '/src/assets/icons/default.png';
+  },
+    async register() {
+      if (!this.username || !this.password) return alert('Username and password are required');
+      try {
+        const res = await API.post('/api/auth/register', {
+          username: this.username,
+          password: this.password
+        });
+        alert('Registered successfully');
+        console.log(res.data);
+      } catch (err) {
+        console.error('Register failed:', err.response?.data || err.message);
+        alert('Register failed: ' + (err.response?.data?.error || err.message));
+      }
+    },
+    async login() {
+      if (!this.username || !this.password) return alert('Username and password are required');
+      try {
+        const res = await API.post('/api/auth/login', {
+          username: this.username,
+          password: this.password
+        });
+        this.token = res.data.token;
+        setToken(this.token);
+        localStorage.setItem('eal_token', this.token);
+        this.loadApps();
+      } catch (err) {
+        console.error('Login failed:', err.response?.data || err.message);
+        alert('Login failed: ' + (err.response?.data?.error || err.message));
+      }
+    },
+    async loadApps() {
+      try {
+        const res = await API.get('/api/apps');
+        this.apps = res.data;
+        saveLocal(this.apps);
+      } catch (e) {
+        this.apps = loadLocal();
+      }
+    },
+    sync() {
+      syncToServer(this.apps);
+    },
+    async createApp(app) {
+      const defaultApp = { icon: '/src/assets/icons/default.png' };
+      const res = await API.post('/api/apps', { ...defaultApp, ...app });
+      this.apps.push(res.data);
+      saveLocal(this.apps);
+    },
+    async removeApp(app) {
+      await API.delete(`/api/apps/${app.id}`);
+      this.apps = this.apps.filter(a => a.id !== app.id);
+      saveLocal(this.apps);
+    },
+    openPreview(app) {
+      this.previewAppObj = app;
+      this.previewVisible = true;
+    },
+    async onUsed() {
+      if (this.previewAppObj) {
+        const a = this.apps.find(x => x.id === this.previewAppObj.id);
+        if (a) {
+          a.useCount = (a.useCount || 0) + 1;
+          a.lastOpened = Date.now();
+          saveLocal(this.apps);
+        }
+        await API.post(`/api/apps/${this.previewAppObj.id}/usage`);
+      }
+    },
+    closePreview() {
+      this.previewAppObj = null;
+      this.previewVisible = false;
+    },
+    addSuggestion(s) {
+      this.createApp(s);
+    },
+    exportPack() {
+      const blob = new Blob([JSON.stringify(this.apps, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'apps-pack.json';
+      a.click();
+    },
+    importPack(e) {
+      const f = e.target.files[0];
+      const r = new FileReader();
+      r.onload = () => {
+        const pack = JSON.parse(r.result);
+        pack.forEach(p => this.createApp(p));
+      };
+      r.readAsText(f);
+    }
+  }
+};
 </script>
 
 <style>
-/* minimal styling for clarity */
-.app{ padding:16px; font-family:Arial; }
-.grid{ display:grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap:12px; margin-top:12px; }
-.top{ display:flex; gap:16px; }
-.favorites,.suggestions{ flex:1; background:#f7f7f7; padding:8px; border-radius:6px; }
+#app { padding: 16px; font-family: Arial, sans-serif; }
+.auth-panel input { margin: 4px; padding: 4px; }
+button { margin: 4px; padding: 4px 8px; }
 </style>
