@@ -2,7 +2,6 @@
   <div id="app">
     <h1>External App Launcher</h1>
 
-    <!-- Login / Register -->
     <div v-if="!token" class="auth-panel">
       <input v-model="username" placeholder="Username" />
       <input type="password" v-model="password" placeholder="Password" />
@@ -10,14 +9,12 @@
       <button @click="login">Login</button>
     </div>
 
-    <!-- App Management -->
     <div v-else>
       <h2>Welcome, {{ username }}</h2>
       <button @click="sync">Sync with Server</button>
 
       <AddAppForm @add-app="createApp" />
 
-      <!-- Draggable App List -->
       <draggable v-model="apps" item-key="id">
         <template #item="{element: app}">
           <div class="app-item">
@@ -29,25 +26,22 @@
         </template>
       </draggable>
 
-      <!-- Suggestions -->
       <h3>Suggestions</h3>
       <div v-for="s in suggestions" :key="s.name">
         <span>{{ s.name }}</span>
         <button @click="addSuggestion(s)">Add</button>
       </div>
 
-      <!-- Export / Import -->
       <div style="margin-top: 1rem;">
         <button @click="exportPack">Export Pack</button>
         <input type="file" @change="importPack" />
       </div>
     </div>
 
-    <!-- Preview Overlay -->
     <IframePreview
       v-if="previewAppObj"
       :app="previewAppObj"
-      @closed="closePreview"
+      @close="closePreview"
       @used="onUsed"
     />
   </div>
@@ -96,7 +90,6 @@ export default {
         alert("Login failed: " + (err.response?.data?.error || err.message));
       }
     },
-
     async loadApps() {
       try {
         const res = await API.get("/api/apps");
@@ -131,10 +124,6 @@ export default {
     },
     openPreview(app) {
       this.previewAppObj = app;
-      setTimeout(() => {
-        window.open(app.url, "_blank");
-        this.closePreview();
-      }, 100);
     },
     closePreview() {
       this.previewAppObj = null;
@@ -187,4 +176,3 @@ export default {
 @import "@/assets/css/nextcloud/modals.css";
 @import "@/assets/css/nextcloud/workspace.css";
 </style>
-
