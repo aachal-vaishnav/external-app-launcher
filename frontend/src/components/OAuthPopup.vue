@@ -50,3 +50,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
+</style>

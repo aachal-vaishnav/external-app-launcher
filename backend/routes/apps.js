@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { nanoid } from 'nanoid';       // ✅ FIXED here
+import { nanoid } from 'nanoid';
 import { authMiddleware } from './auth.js';
 import { encrypt, decrypt } from '../utils/crypto.js';
 
@@ -33,10 +33,9 @@ router.post('/', (req, res) => {
   const idx = users.findIndex(u => u.username === req.user.username);
 
   const app = {
-    id: nanoid(),             // ✅ using nanoid now
+    id: nanoid(),
     name: appsPayload.name,
     url: appsPayload.url,
-    icon: appsPayload.icon || '',
     category: appsPayload.category || 'Other',
     favorite: false,
     useCount: 0,
@@ -49,20 +48,21 @@ router.post('/', (req, res) => {
   res.json(app);
 });
 
-// update
+// update app
 router.put('/:id', (req, res) => {
   const users = readUsers();
   const idx = users.findIndex(u => u.username === req.user.username);
   const apps = users[idx].apps;
   const i = apps.findIndex(a => a.id === req.params.id);
   if (i === -1) return res.status(404).json({ error: 'notfound' });
+
   apps[i] = { ...apps[i], ...req.body };
   users[idx].apps = apps;
   writeUsers(users);
   res.json(apps[i]);
 });
 
-// delete
+// delete app
 router.delete('/:id', (req, res) => {
   const users = readUsers();
   const idx = users.findIndex(u => u.username === req.user.username);
@@ -71,12 +71,13 @@ router.delete('/:id', (req, res) => {
   res.json({ ok: true });
 });
 
-// usage: increment
+// increment usage
 router.post('/:id/usage', (req, res) => {
   const users = readUsers();
   const idx = users.findIndex(u => u.username === req.user.username);
   const app = users[idx].apps.find(a => a.id === req.params.id);
   if (!app) return res.status(404).json({ error: 'notfound' });
+
   app.useCount = (app.useCount || 0) + 1;
   app.lastOpened = Date.now();
   users[idx].apps = users[idx].apps.map(a => a.id === app.id ? app : a);
@@ -88,10 +89,12 @@ router.post('/:id/usage', (req, res) => {
 router.post('/:id/credentials', (req, res) => {
   const { secret } = req.body;
   if (!secret) return res.status(400).json({ error: 'missing' });
+
   const users = readUsers();
   const idx = users.findIndex(u => u.username === req.user.username);
   const app = users[idx].apps.find(a => a.id === req.params.id);
   if (!app) return res.status(404).json({ error: 'notfound' });
+
   const enc = encrypt(secret);
   app.encryptedSecret = enc;
   users[idx].apps = users[idx].apps.map(a => a.id === app.id ? app : a);
@@ -104,7 +107,8 @@ router.get('/:id/credentials', (req, res) => {
   const users = readUsers();
   const idx = users.findIndex(u => u.username === req.user.username);
   const app = users[idx].apps.find(a => a.id === req.params.id);
-  if (!app) return res.json({ connected: !!app.encryptedSecret });
+  if (!app) return res.json({ connected: false });
+
   res.json({ connected: !!app.encryptedSecret });
 });
 

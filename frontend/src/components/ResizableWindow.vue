@@ -121,46 +121,10 @@ export default {
 </script>
 
 <style scoped>
-.mini {
-  display: flex;
-  flex-direction: column;
-  background: white;
-}
-.hdr {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px;
-  background: #222;
-  color: white;
-  cursor: grab;
-}
-.hdr-actions button {
-  margin-left: 4px;
-}
-.body {
-  position: relative;
-  flex: 1;
-}
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 2;
-}
-.resizer {
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  cursor: se-resize;
-  background: transparent;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>

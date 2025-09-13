@@ -1,0 +1,56 @@
+/* Base Button */
+button {
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  border-radius: var(--border-radius);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+button:hover {
+  background-color: #2563eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:focus {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* Danger Button */
+button.danger {
+  background-color: var(--secondary-color);
+}
+
+button.danger:hover {
+  background-color: #dc2626;
+}
+
+/* Small Button */
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+  background-color: #e5e7eb;
+  color: #111;
+  border: 1px solid #d1d5db;
+}
+
+.btn-sm:hover {
+  background-color: #d1d5db;
+}
+
+.btn-sm.danger {
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+}
+
+.btn-sm.danger:hover {
+  background-color: #dc2626;
+}

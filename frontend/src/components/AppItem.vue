@@ -1,7 +1,6 @@
 <template>
   <div class="app-item" tabindex="0" @keydown.enter="$emit('open-preview', app)">
-    <img :src="app.icon || defaultIcon" width="40" height="40" alt="App Icon" />
-    <div>
+    <div class="details">
       <div class="title">
         {{ app.name }}
         <span v-if="app.favorite">⭐</span>
@@ -19,35 +18,15 @@
 
 <script>
 export default {
-  props: ['app'],
-  computed: {
-    defaultIcon() {
-      // fallback icon if app.icon is missing
-      return '/src/assets/icons/default.png';
-    }
-  }
+  props: ['app']
 };
 </script>
 
 <style scoped>
-.app-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px;
-  border-radius: 6px;
-  background: #fff;
-}
-.actions {
-  margin-left: auto;
-  display: flex;
-  gap: 6px;
-}
-.title {
-  font-weight: bold;
-}
-.meta {
-  font-size: 12px;
-  color: #555;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>

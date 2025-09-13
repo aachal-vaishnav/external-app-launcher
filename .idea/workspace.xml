@@ -5,26 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de054af5-ac31-456d-8429-29258711006a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/data/shares.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/shares.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/data/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/users.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/apps.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/apps.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/oauth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/oauth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/icons/default.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/icons/github.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/icons/google-meet.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/icons/trello.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/icons/zoom.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/vue.svg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/AddAppForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AddAppForm.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/AppItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AppItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AppList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AppList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/IframePreview.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IframePreview.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/MultiAppWorkspace.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MultiAppWorkspace.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/OAuthPopup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OAuthPopup.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/PreviewOverlay.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/PreviewOverlay.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/ResizableWindow.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ResizableWindow.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/SettingsPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SettingsPanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UsageDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UsageDashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/services/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextcloud-app/appinfo/app.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextcloud-app/appinfo/info.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextcloud-app/frontend/dist/assets/index-23xnthNb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextcloud-app/frontend/dist/assets/index-B5hZ8AdD.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextcloud-app/frontend/dist/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextcloud-app/frontend/dist/vite.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextcloud-app/templates/widget.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,35 +48,35 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "aachal-vaishnav"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;aachal-vaishnav&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/aachal-vaishnav/external-app-launcher.git",
-    "accountId": "caf0e7b7-07fb-4d44-a912-f6a82aaf16b3"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/aachal-vaishnav/external-app-launcher.git&quot;,
+    &quot;accountId&quot;: &quot;caf0e7b7-07fb-4d44-a912-f6a82aaf16b3&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="32bR2ZzN3Rn0L3zzO81tVxTcW22" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/aacha/Documents/Hackathon/external-app-launcher"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/aacha/Documents/Hackathon/external-app-launcher&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="de054af5-ac31-456d-8429-29258711006a" name="Changes" comment="" />

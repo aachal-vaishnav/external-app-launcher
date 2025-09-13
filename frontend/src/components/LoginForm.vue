@@ -55,16 +55,11 @@ export default {
 </script>
 
 <style scoped>
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 300px;
-}
-.login-form input {
-  padding: 6px;
-}
-.login-form button {
-  padding: 6px 12px;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>
+

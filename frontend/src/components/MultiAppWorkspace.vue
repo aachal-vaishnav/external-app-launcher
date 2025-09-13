@@ -1,7 +1,3 @@
-<!-- ==============================================
-  new
-  Multi-App Workspace Feature
-============================================== -->
 <template>
   <div class="workspace">
     <h3>Favorites</h3>
@@ -10,6 +6,8 @@
       :key="app.id"
       :app="app"
       @open-preview="openApp"
+      @edit="$emit('edit-app', $event)"
+      @remove="$emit('remove-app', $event)"
     />
 
     <h3>Recent</h3>
@@ -18,9 +16,11 @@
       :key="app.id"
       :app="app"
       @open-preview="openApp"
+      @edit="$emit('edit-app', $event)"
+      @remove="$emit('remove-app', $event)"
     />
 
-    <!-- Render all open windows -->
+    <!-- Render open windows -->
     <ResizableWindow
       v-for="win in openWindows"
       :key="win.id"
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     favoriteApps() {
-      return this.apps.filter((a) => a.favorite);
+      return this.apps.filter(a => a.favorite);
     },
     recentApps() {
       return [...this.apps]
@@ -62,6 +62,10 @@ export default {
     },
   },
   methods: {
+    authHeader() {
+      const token = localStorage.getItem("eal_token");
+      return { headers: { Authorization: `Bearer ${token}` } };
+    },
     async fetchApps() {
       try {
         const res = await API.get("/api/apps", this.authHeader());
@@ -70,57 +74,45 @@ export default {
         console.error("Failed to fetch apps:", err);
       }
     },
-    authHeader() {
-      const token = localStorage.getItem("eal_token");
-      return { headers: { Authorization: `Bearer ${token}` } };
-    },
     openApp(app) {
-      if (!this.openWindows.find((w) => w.id === app.id)) {
-        this.openWindows.push({
-          ...app,
-          x: 100,
-          y: 100,
-          w: 640,
-          h: 480,
-        });
+      if (!this.openWindows.find(w => w.id === app.id)) {
+        this.openWindows.push({ ...app, x: 100, y: 100, w: 640, h: 480 });
       }
     },
     closeWindow(win) {
-      this.openWindows = this.openWindows.filter((w) => w.id !== win.id);
+      this.openWindows = this.openWindows.filter(w => w.id !== win.id);
     },
     async onMove(win, pos) {
-      // Snap to edges
+      // Snap edges
       if (pos.x < 20) win.x = 0;
       if (pos.y < 20) win.y = 0;
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-      if (pos.x + win.w > screenWidth - 20) win.x = screenWidth - win.w;
-      if (pos.y + win.h > screenHeight - 20) win.y = screenHeight - win.h;
+      const sw = window.innerWidth, sh = window.innerHeight;
+      if (pos.x + win.w > sw - 20) win.x = sw - win.w;
+      if (pos.y + win.h > sh - 20) win.y = sh - win.h;
 
-      // Save open windows to localStorage
-      localStorage.setItem(
-        "workspace_windows",
-        JSON.stringify(this.openWindows)
-      );
+      // Save positions
+      localStorage.setItem("workspace_windows", JSON.stringify(this.openWindows));
 
       // Track usage
       try {
-        await API.post(`/api/apps/${win.id}/usage`);
+        await API.post(`/api/apps/${win.id}/usage`, null, this.authHeader());
       } catch (err) {
         console.error("Failed to record usage:", err);
       }
-    },
+    }
   },
   mounted() {
     this.fetchApps();
-    const saved = JSON.parse(localStorage.getItem("workspace_windows") || "[]");
-    this.openWindows = saved;
-  },
+    this.openWindows = JSON.parse(localStorage.getItem("workspace_windows") || "[]");
+  }
 };
 </script>
 
 <style scoped>
-.workspace {
-  padding: 16px;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>

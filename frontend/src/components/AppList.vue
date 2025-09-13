@@ -1,4 +1,3 @@
-<!--NEW -->
 <template>
   <div class="app-list">
     <div
@@ -9,7 +8,14 @@
       <details open>
         <summary class="category-title">{{ category }}</summary>
         <div class="apps-grid">
-          <AppItem v-for="app in apps" :key="app.url" :app="app" />
+          <AppItem
+            v-for="app in apps"
+            :key="app.id"
+            :app="app"
+            @open-preview="$emit('open-preview', $event)"
+            @edit="$emit('edit', $event)"
+            @remove="$emit('remove', $event)"
+          />
         </div>
       </details>
     </div>
@@ -18,7 +24,16 @@
 
 <script>
 import AppItem from "./AppItem.vue";
-import { groupByCategory } from "../data/groupedApps";
+
+// helper to group apps by category
+export function groupByCategory(apps) {
+  return apps.reduce((acc, app) => {
+    const cat = app.category || 'Other';
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(app);
+    return acc;
+  }, {});
+}
 
 export default {
   name: "AppList",
@@ -35,17 +50,10 @@ export default {
 </script>
 
 <style scoped>
-.category-group {
-  margin-bottom: 16px;
-}
-.category-title {
-  font-weight: bold;
-  cursor: pointer;
-}
-.apps-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 8px;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>

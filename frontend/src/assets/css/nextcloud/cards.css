@@ -1,0 +1,55 @@
+/* Card Container */
+.card, .app-item {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover, .app-item:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* App Item Layout */
+.app-item {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* App Details */
+.app-item .details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.meta {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Action Buttons */
+.app-item .actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Section Headings (optional) */
+.card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}

@@ -1,25 +1,24 @@
-<!-- ==============================================
-  new
-  App Usage Dashboard
-  
-============================================== -->
 <template>
   <div class="usage-dashboard">
     <h2>App Usage Analytics</h2>
 
-    <h3>Top 5 Most Used Apps</h3>
-    <ul>
-      <li v-for="app in topApps" :key="app.id">
-        {{ app.name }} - {{ app.useCount || 0 }} opens
-      </li>
-    </ul>
+    <section>
+      <h3>Top 5 Most Used Apps</h3>
+      <ul>
+        <li v-for="app in topApps" :key="app.id">
+          {{ app.name }} - {{ app.useCount || 0 }} opens
+        </li>
+      </ul>
+    </section>
 
-    <h3>Last 5 Opened Apps</h3>
-    <ul>
-      <li v-for="app in recentApps" :key="app.id">
-        {{ app.name }} - Last opened: {{ formatTime(app.lastOpened) }}
-      </li>
-    </ul>
+    <section class="mt-4">
+      <h3>Last 5 Opened Apps</h3>
+      <ul>
+        <li v-for="app in recentApps" :key="app.id">
+          {{ app.name }} - Last opened: {{ formatTime(app.lastOpened) }}
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
@@ -58,9 +57,9 @@ export default {
       const token = localStorage.getItem("eal_token");
       return { headers: { Authorization: `Bearer ${token}` } };
     },
-    formatTime(ts) {
-      if (!ts) return "Never";
-      return new Date(ts).toLocaleString();
+    formatTime(timestamp) {
+      if (!timestamp) return "Never";
+      return new Date(timestamp).toLocaleString();
     },
   },
   mounted() {
@@ -68,17 +67,12 @@ export default {
   },
 };
 </script>
-
 <style scoped>
-.usage-dashboard {
-  background: var(--bg-color);
-  color: var(--text-color);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 1rem 0;
-  text-align: left;
-}
-.usage-dashboard ul {
-  padding-left: 1.2rem;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>
+

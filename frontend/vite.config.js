@@ -1,3 +1,15 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-export default defineConfig({ plugins:[vue()], server:{ port:5173 }});
+import { resolve } from 'path';
+
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src')  // <-- yeh add karo
+    }
+  },
+  server: {
+    port: 5173
+  }
+});

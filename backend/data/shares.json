@@ -2,9 +2,8 @@
   "abc12345": {
     "pack": [
       {
-        "name": "Amazon",
-        "url": "https://www.amazon.in",
-        "icon": "https://via.placeholder.com/40",
+        "name": "Github",
+        "url": "https://www.github.com",
         "category": "Fun"
       }
     ],

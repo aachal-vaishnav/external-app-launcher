@@ -2,7 +2,6 @@
   <div class="add-app-form">
     <input v-model="name" placeholder="App Name" />
     <input v-model="url" placeholder="App URL" />
-    <input v-model="icon" placeholder="Icon URL (optional)" />
     <select v-model="category">
       <option>Work</option>
       <option>Tools</option>
@@ -14,12 +13,13 @@
 </template>
 
 <script>
+import API from '../services/api.js';
+
 export default {
   data() {
     return {
       name: '',
       url: '',
-      icon: '',
       category: 'Work'
     };
   },
@@ -32,46 +32,38 @@ export default {
         return false;
       }
     },
-    getDefaultIcon(name) {
-      const n = (name || '').toLowerCase();
-      if (n.includes('google meet')) return '/src/assets/icons/google-meet.jpeg';
-      if (n.includes('zoom')) return '/src/assets/icons/zoom.png';
-      if (n.includes('trello')) return '/src/assets/icons/trello.png';
-      if (n.includes('github')) return '/src/assets/icons/github.png';
-      return '/src/assets/icons/default.png';
-    },
-    add() {
+    async add() {
       if (!this.name || !this.url) return alert('Name & URL are required');
       if (!this.isValidUrl(this.url)) return alert('Use a valid HTTPS URL');
 
       const appData = {
         name: this.name,
         url: this.url,
-        icon: this.icon?.trim() || this.getDefaultIcon(this.name),
         category: this.category
       };
 
-      this.$emit('add-app', appData);
+      try {
+        const res = await API.post('/api/apps', appData);
+        this.$emit('add-app', res.data);
 
-      // reset inputs
-      this.name = '';
-      this.url = '';
-      this.icon = '';
+        // reset inputs
+        this.name = '';
+        this.url = '';
+        this.category = 'Work';
+      } catch (err) {
+        console.error(err);
+        alert('Failed to add app. Check console.');
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.add-app-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.add-app-form input,
-.add-app-form select,
-.add-app-form button {
-  padding: 6px 8px;
-  font-size: 14px;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>

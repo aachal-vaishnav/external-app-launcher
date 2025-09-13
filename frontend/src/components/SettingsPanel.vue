@@ -5,20 +5,17 @@
     <form @submit.prevent="addApp">
       <input v-model="newApp.name" placeholder="App Name" class="input" required />
       <input v-model="newApp.url" placeholder="App URL" class="input" required />
-      <input v-model="newApp.icon" placeholder="Icon URL" class="input" />
       <input v-model="newApp.category" placeholder="Category" class="input" />
       <button type="submit" class="btn">Add App</button>
     </form>
 
     <ul class="mt-6 space-y-2">
       <li v-for="app in apps" :key="app.id" class="flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-          <img :src="getIcon(app)" class="w-6 h-6" />
-          <span>{{ app.name }}</span>
-        </div>
+        <span>{{ app.name }} ({{ app.category || 'Other' }})</span>
         <div class="space-x-2">
           <button @click="editApp(app)" class="btn-sm">Edit</button>
           <button @click="deleteApp(app.id)" class="btn-sm danger">Delete</button>
+          <button @click="connectOAuth(app)" class="btn-sm">Connect</button>
         </div>
       </li>
     </ul>
@@ -33,38 +30,31 @@ export default {
   data() {
     return {
       apps: [],
-      newApp: { name: '', url: '', icon: '', category: '' },
+      newApp: { name: '', url: '', category: '' },
     };
   },
   created() {
     this.fetchApps();
   },
   methods: {
+    authHeader() {
+      const token = localStorage.getItem('eal_token');
+      return { headers: { Authorization: `Bearer ${token}` } };
+    },
     async fetchApps() {
       try {
         const res = await axios.get('/api/apps', this.authHeader());
         this.apps = res.data;
       } catch (err) {
         console.error('Failed to fetch apps:', err);
-        this.apps = []; // fallback to empty
+        this.apps = [];
       }
-    },
-    getIcon(app) {
-      if (app.icon) return app.icon;
-      const nameLower = app.name.toLowerCase();
-      if (nameLower.includes('google meet')) return '/src/assets/icons/google-meet.jpeg';
-      if (nameLower.includes('zoom')) return '/src/assets/icons/zoom.png';
-      if (nameLower.includes('trello')) return '/src/assets/icons/trello.png';
-      if (nameLower.includes('github')) return '/src/assets/icons/github.png';
-      return '/src/assets/icons/default.png';
     },
     async addApp() {
       try {
-        // ensure icon fallback
-        if (!this.newApp.icon) this.newApp.icon = this.getIcon(this.newApp);
         const res = await axios.post('/api/apps', this.newApp, this.authHeader());
         this.apps.push(res.data);
-        this.newApp = { name: '', url: '', icon: '', category: '' };
+        this.newApp = { name: '', url: '', category: '' };
       } catch (err) {
         alert('Failed to add app');
         console.error(err);
@@ -79,39 +69,36 @@ export default {
         console.error(err);
       }
     },
-    editApp(app) {
-      alert('Edit feature not implemented yet: ' + app.name);
+    async editApp(app) {
+      const newName = prompt('Edit App Name:', app.name);
+      const newUrl = prompt('Edit App URL:', app.url);
+      const newCategory = prompt('Edit Category:', app.category);
+
+      if (!newName || !newUrl) return;
+
+      try {
+        const payload = { name: newName, url: newUrl, category: newCategory };
+        const res = await axios.put(`/api/apps/${app.id}`, payload, this.authHeader());
+        const idx = this.apps.findIndex(a => a.id === app.id);
+        if (idx !== -1) this.apps[idx] = res.data;
+      } catch (err) {
+        alert('Failed to edit app');
+        console.error(err);
+      }
     },
-    authHeader() {
-      const token = localStorage.getItem('eal_token'); // use same token as App.vue
-      return { headers: { Authorization: `Bearer ${token}` } };
-    },
-  },
+    connectOAuth(app) {
+      // emit to parent or handle OAuth flow via existing OAuth component
+      this.$emit('start-oauth', app);
+    }
+  }
 };
 </script>
 
 <style scoped>
-.input {
-  border: 1px solid #ccc;
-  padding: 6px;
-  border-radius: 4px;
-  width: 100%;
-  margin-bottom: 8px;
-}
-.btn {
-  background-color: #3b82f6;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 4px;
-}
-.btn-sm {
-  background-color: #e5e7eb;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.875rem;
-}
-.danger {
-  background-color: #ef4444;
-  color: white;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>

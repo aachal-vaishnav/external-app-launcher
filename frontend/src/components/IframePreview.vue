@@ -1,46 +1,59 @@
 <template>
-  <div v-if="app && app.url" class="iframe-overlay">
+  <div v-if="app" class="iframe-overlay">
     <div class="iframe-header">
-      <span>{{ app.name || 'App' }} Preview</span>
-      <button @click="$emit('closed')">X</button>
+      <span>{{ app.name }} Preview</span>
+      <button @click="$emit('close')">X</button>
     </div>
-    <iframe 
-      :src="app.url" 
-      sandbox="allow-scripts allow-same-origin allow-forms" 
-      @load="$emit('used')"
-    ></iframe>
+    <div class="iframe-body">
+      <iframe
+        ref="frame"
+        :src="app.url"
+        sandbox="allow-scripts allow-same-origin allow-forms"
+        @load="onLoad"
+        @error="onError"
+      ></iframe>
+      <div v-if="blocked" class="blocked">
+        ⚠️ Cannot preview this URL due to browser security.
+        <button @click="openNewTab">Open in New Tab</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['app']
+  props: ['app'],
+  data() {
+    return {
+      blocked: false,
+    };
+  },
+  methods: {
+    onLoad() {
+      // Some browsers may not trigger error; check for blank content
+      const iframe = this.$refs.frame;
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!doc || doc.body.innerHTML === '') this.blocked = true;
+      } catch {
+        this.blocked = true;
+      }
+    },
+    onError() {
+      this.blocked = true;
+    },
+    openNewTab() {
+      window.open(this.app.url, '_blank');
+    },
+  },
 };
 </script>
 
 <style scoped>
-.iframe-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-}
-
-.iframe-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background: #333;
-  color: #fff;
-}
-
-iframe {
-  flex: 1;
-  border: none;
-}
+@import "@/assets/css/nextcloud/base.css";
+@import "@/assets/css/nextcloud/buttons.css";
+@import "@/assets/css/nextcloud/forms.css";
+@import "@/assets/css/nextcloud/cards.css";
+@import "@/assets/css/nextcloud/modals.css";
+@import "@/assets/css/nextcloud/workspace.css";
 </style>

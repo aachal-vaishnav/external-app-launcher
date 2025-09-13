@@ -1,13 +1,17 @@
 import axios from 'axios';
 
-// Use Vite env var or fallback to localhost
+// ✅ Axios instance with correct backend base URL
 const API = axios.create({
-  //baseURL: import.meta.env.VITE_BACKEND_ROOT || 'http://localhost:5000'
-  baseURL: 'http://localhost:5000'
+  baseURL: 'http://localhost:5000', // Fixed: removed extra /api
 });
 
+// ✅ Helper to attach JWT token to all requests
 export function setToken(token) {
-  API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  if (token) {
+    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete API.defaults.headers.common['Authorization'];
+  }
 }
 
 export default API;

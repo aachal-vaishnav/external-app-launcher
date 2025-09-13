@@ -5,79 +5,114 @@
     "password": "$2b$10$8KnD2kUWXPc0.FPGVG9i1uD0Wnxfj8V/fv9n150IQMRyR5SqtN8CK",
     "apps": [
       {
-        "id": "qc7ntURlwkFF_p5Q5hPw-",
+        "id": "caluxU0XhdtdLVfgPOijF",
         "name": "Google Meet",
         "url": "https://meet.google.com",
-        "icon": "https://via.placeholder.com/40",
         "category": "Work",
         "favorite": false,
         "useCount": 0,
         "lastOpened": null,
-        "createdAt": 1757683952874
+        "createdAt": 1757762582355
       },
       {
-        "id": "--iIF5bO9uEhKiCz1Wezu",
+        "id": "qQnlxQhTRn0b0zwDPuYbR",
         "name": "Google Meet",
         "url": "https://meet.google.com",
-        "icon": "https://via.placeholder.com/40",
         "category": "Work",
         "favorite": false,
         "useCount": 0,
         "lastOpened": null,
-        "createdAt": 1757686270209
+        "createdAt": 1757766848791
       },
       {
-        "id": "fiNxbnInn5L82rUqiHupH",
+        "id": "hEOKmUgK4wZeDdgOPCOA2",
         "name": "Google Meet",
         "url": "https://meet.google.com",
-        "icon": "https://via.placeholder.com/40",
         "category": "Work",
         "favorite": false,
         "useCount": 0,
         "lastOpened": null,
-        "createdAt": 1757686271874
+        "createdAt": 1757766850610
       },
       {
-        "id": "JbaczLs_XIbjmgua1iD2u",
-        "name": "Google Meet",
-        "url": "https://meet.google.com",
-        "icon": "https://via.placeholder.com/40",
+        "id": "jkTX2DYo3CKK0VHojR5I9",
+        "name": "Zoom",
+        "url": "https://zoom.us",
         "category": "Work",
         "favorite": false,
         "useCount": 0,
         "lastOpened": null,
-        "createdAt": 1757686282039
+        "createdAt": 1757766852603
       },
       {
-        "id": "Blvxlk4TtbQjCg7B_MlgW",
-        "icon": "",
-        "category": "Other",
+        "id": "0ObyKozttruhK7vkXLR5Y",
+        "name": "Google",
+        "url": "https://google.in",
+        "category": "Work",
         "favorite": false,
         "useCount": 0,
         "lastOpened": null,
-        "createdAt": 1757686421906
+        "createdAt": 1757773228089
       },
       {
-        "id": "K0y02uVmWZh33Wzl9F1HU",
+        "id": "4b8DrabUXy7iTkWpwZoxL",
+        "name": "Google Meet",
+        "url": "https://meet.google.com",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757773509360
+      },
+      {
+        "id": "_xjQwF4iGcfHIDFC2MYwv",
+        "name": "Google Meet",
+        "url": "https://meet.google.com",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757774003995
+      },
+      {
+        "id": "zaex_a4iSGCpBTUWV0qI0",
         "name": "Amazon",
-        "url": "https://www.Amazon.com",
-        "icon": "Amazon",
-        "category": "Tools",
-        "favorite": false,
-        "useCount": 1,
-        "lastOpened": 1757686938708,
-        "createdAt": 1757686932748
-      },
-      {
-        "id": "blECxMn5V2X8ygLkXbjco",
-        "name": "Google Meet",
-        "url": "https://meet.google.com",
-        "icon": "https://via.placeholder.com/40",
+        "url": "https://www.amazon.in/",
         "category": "Work",
         "favorite": false,
         "useCount": 0,
         "lastOpened": null,
-        "createdAt": 1757686952876
+        "createdAt": 1757774021172
+      },
+      {
+        "id": "Z1tezKMyAUqhEaDuEaSia",
+        "name": "Amazon",
+        "url": "https://www.amazon.in/",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757774021182
+      },
+      {
+        "id": "nbG3a4Hr6eXLKEkE1_--n",
+        "name": "Github",
+        "url": "https://github.com/",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757774059173
+      },
+      {
+        "id": "EooCsUYkG9n23-qZxc6_3",
+        "name": "Github",
+        "url": "https://github.com/",
+        "category": "Work",
+        "favorite": false,
+        "useCount": 0,
+        "lastOpened": null,
+        "createdAt": 1757774059180
       }
     ]
   }

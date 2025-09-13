@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<info>
-  <id>external-app-launcher</id>
-  <name>External App Launcher</name>
-  <description>Launch external apps inside Nextcloud dashboard</description>
-  <version>1.0.0</version>
-  <author>Your Name</author>
-  <licence>AGPL-3.0</licence>
-</info>
