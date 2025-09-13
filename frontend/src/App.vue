@@ -1,3 +1,4 @@
+<-- new -->
 <template>
   <div id="app">
     <h1>External App Launcher</h1>
@@ -16,19 +17,24 @@
       <button @click="sync">Sync with Server</button>
       <AddAppForm @add-app="createApp" />
 
+      <!-- 🔥 Category-wise App List -->
       <h3>Your Apps</h3>
-      <div v-for="app in apps" :key="app.id">
-        <AppItem
-          :app="{ ...app, icon: app.icon || getDefaultIcon(app.name) }"
-          @open-preview="openPreview"
-          @remove="removeApp(app)"
-        />
-      </div>
+      <AppList
+        :apps="appsWithIcons"
+        @open-preview="openPreview"
+        @remove="removeApp"
+      />
 
       <h3>Suggestions</h3>
       <div v-for="s in suggestions" :key="s.name">
         <span>{{ s.name }}</span>
-        <button @click="addSuggestion({ ...s, icon: s.icon || getDefaultIcon(s.name) })">Add</button>
+        <button
+          @click="
+            addSuggestion({ ...s, icon: s.icon || getDefaultIcon(s.name) })
+          "
+        >
+          Add
+        </button>
       </div>
 
       <div>
@@ -48,24 +54,28 @@
 </template>
 
 <script>
-import API, { setToken } from './services/api';
-import AddAppForm from './components/AddAppForm.vue';
-import AppItem from './components/AppItem.vue';
-import PreviewOverlay from './components/Iframepreview.vue';
-import { loadLocal, saveLocal, syncToServer } from './services/sync';
-import suggestions from './data/suggestions.json';
+import API, { setToken } from "./services/api";
+import AddAppForm from "./components/AddAppForm.vue";
+import AppItem from "./components/AppItem.vue";
+import PreviewOverlay from "./components/IframePreview.vue";
+import { loadLocal, saveLocal, syncToServer } from "./services/sync";
+import suggestions from "./data/suggestions.json";
+import UsageDashboard from "./components/UsageDashboard.vue";
+
+// 🔥 New import
+import AppList from "./components/AppList.vue";
 
 export default {
-  components: { AddAppForm, AppItem, PreviewOverlay },
+  components: { AddAppForm, AppItem, PreviewOverlay, AppList }, // 🔥 Added AppList
   data() {
     return {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
       token: null,
       apps: [],
       previewAppObj: null,
       previewVisible: false,
-      suggestions
+      suggestions,
     };
   },
   computed: {
@@ -73,51 +83,61 @@ export default {
       return [...this.apps]
         .sort((a, b) => (b.useCount || 0) - (a.useCount || 0))
         .slice(0, 3);
-    }
+    },
+    // 🔥 This ensures all apps have a fallback icon
+    appsWithIcons() {
+      return this.apps.map((app) => ({
+        ...app,
+        icon: app.icon || this.getDefaultIcon(app.name),
+      }));
+    },
   },
   methods: {
     getDefaultIcon(name) {
-    const n = (name || '').toLowerCase();
+      const n = (name || "").toLowerCase();
 
-    if (n.includes('google meet')) return '/src/assets/icons/google-meet.jpeg';
-    if (n.includes('zoom')) return '/src/assets/icons/zoom.png';
-    if (n.includes('trello')) return '/src/assets/icons/trello.png';
-    if (n.includes('github')) return '/src/assets/icons/github.png';
-    return '/src/assets/icons/default.png';
-  },
+      if (n.includes("google meet"))
+        return "/src/assets/icons/google-meet.jpeg";
+      if (n.includes("zoom")) return "/src/assets/icons/zoom.png";
+      if (n.includes("trello")) return "/src/assets/icons/trello.png";
+      if (n.includes("github")) return "/src/assets/icons/github.png";
+      return "/src/assets/icons/default.png";
+    },
     async register() {
-      if (!this.username || !this.password) return alert('Username and password are required');
+      if (!this.username || !this.password)
+        return alert("Username and password are required");
       try {
-        const res = await API.post('/api/auth/register', {
+        const res = await API.post("/api/auth/register", {
           username: this.username,
-          password: this.password
+          password: this.password,
         });
-        alert('Registered successfully');
+        alert("Registered successfully");
         console.log(res.data);
       } catch (err) {
-        console.error('Register failed:', err.response?.data || err.message);
-        alert('Register failed: ' + (err.response?.data?.error || err.message));
+        console.error("Register failed:", err.response?.data || err.message);
+        alert("Register failed: " + (err.response?.data?.error || err.message));
       }
     },
     async login() {
-      if (!this.username || !this.password) return alert('Username and password are required');
+      if (!this.username || !this.password)
+        return alert("Username and password are required");
       try {
-        const res = await API.post('/api/auth/login', {
+        const res = await API.post("/api/auth/login", {
           username: this.username,
-          password: this.password
+          password: this.password,
         });
         this.token = res.data.token;
         setToken(this.token);
-        localStorage.setItem('eal_token', this.token);
+        localStorage.setItem("eal_token", this.token);
         this.loadApps();
       } catch (err) {
-        console.error('Login failed:', err.response?.data || err.message);
-        alert('Login failed: ' + (err.response?.data?.error || err.message));
+        console.error("Login failed:", err.response?.data || err.message);
+        alert("Login failed: " + (err.response?.data?.error || err.message));
       }
     },
     async loadApps() {
       try {
-        const res = await API.get('/api/apps');
+        const res = await API.get("/api/apps");
         this.apps = res.data;
         saveLocal(this.apps);
       } catch (e) {
@@ -128,14 +148,14 @@ export default {
       syncToServer(this.apps);
     },
     async createApp(app) {
-      const defaultApp = { icon: '/src/assets/icons/default.png' };
-      const res = await API.post('/api/apps', { ...defaultApp, ...app });
+      const defaultApp = { icon: "/src/assets/icons/default.png" };
+      const res = await API.post("/api/apps", { ...defaultApp, ...app });
       this.apps.push(res.data);
       saveLocal(this.apps);
     },
     async removeApp(app) {
       await API.delete(`/api/apps/${app.id}`);
-      this.apps = this.apps.filter(a => a.id !== app.id);
+      this.apps = this.apps.filter((a) => a.id !== app.id);
       saveLocal(this.apps);
     },
     openPreview(app) {
@@ -144,7 +164,7 @@ export default {
     },
     async onUsed() {
       if (this.previewAppObj) {
-        const a = this.apps.find(x => x.id === this.previewAppObj.id);
+        const a = this.apps.find((x) => x.id === this.previewAppObj.id);
         if (a) {
           a.useCount = (a.useCount || 0) + 1;
           a.lastOpened = Date.now();
@@ -161,11 +181,13 @@ export default {
       this.createApp(s);
     },
     exportPack() {
-      const blob = new Blob([JSON.stringify(this.apps, null, 2)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify(this.apps, null, 2)], {
+        type: "application/json",
+      });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'apps-pack.json';
+      a.download = "apps-pack.json";
       a.click();
     },
     importPack(e) {
@@ -173,16 +195,25 @@ export default {
       const r = new FileReader();
       r.onload = () => {
         const pack = JSON.parse(r.result);
-        pack.forEach(p => this.createApp(p));
+        pack.forEach((p) => this.createApp(p));
       };
       r.readAsText(f);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
-#app { padding: 16px; font-family: Arial, sans-serif; }
-.auth-panel input { margin: 4px; padding: 4px; }
-button { margin: 4px; padding: 4px 8px; }
+#app {
+  padding: 16px;
+  font-family: Arial, sans-serif;
+}
+.auth-panel input {
+  margin: 4px;
+  padding: 4px;
+}
+button {
+  margin: 4px;
+  padding: 4px 8px;
+}
 </style>
