@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <ResizableWindow
-      v-if="visibleLocal"
-      :title="app.name"
-      :src="app.url"
-      :visible="visibleLocal"
-      @update:visible="visibleLocal = $event"
-      @opened="onOpen"
-      @closed="onClose"
-    />
+  <div class="app-window-wrapper">
+    <transition name="fade-scale">
+      <ResizableWindow
+        v-if="visibleLocal"
+        :title="app.name"
+        :src="app.url"
+        :visible="visibleLocal"
+        @update:visible="visibleLocal = $event"
+        @opened="onOpen"
+        @closed="onClose"
+      />
+    </transition>
   </div>
 </template>
 
@@ -34,9 +36,8 @@ export default {
   methods: {
     async onOpen() {
       try {
-        // Increment usage count on backend
         await API.post(`/api/apps/${this.app.id}/usage`);
-        this.$emit('used'); // notify parent workspace
+        this.$emit('used');
       } catch (err) {
         console.error('Failed to record usage:', err);
       }
@@ -48,11 +49,22 @@ export default {
   }
 };
 </script>
+
 <style scoped>
-@import "@/assets/css/nextcloud/base.css";
-@import "@/assets/css/nextcloud/buttons.css";
-@import "@/assets/css/nextcloud/forms.css";
-@import "@/assets/css/nextcloud/cards.css";
-@import "@/assets/css/nextcloud/modals.css";
-@import "@/assets/css/nextcloud/workspace.css";
+.app-window-wrapper {
+  position: relative;
+  z-index: 900;
+  padding: 1rem;
+}
+
+/* Optional fade-scale animation */
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-scale-enter-from,
+.fade-scale-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
 </style>

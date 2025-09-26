@@ -37,6 +37,7 @@ router.post('/', (req, res) => {
     name: appsPayload.name,
     url: appsPayload.url,
     category: appsPayload.category || 'Other',
+    provider: appsPayload.provider || '',
     favorite: false,
     useCount: 0,
     lastOpened: null,

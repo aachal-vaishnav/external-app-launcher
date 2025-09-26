@@ -1,159 +1,219 @@
 [
+  [
+    {
+      "id": "229b720e-e245-4045-8012-5683551c5311",
+      "username": "aachal",
+      "password": "$2b$10$8KnD2kUWXPc0.FPGVG9i1uD0Wnxfj8V/fv9n150IQMRyR5SqtN8CK",
+      "apps": [
+        {
+          "id": "caluxU0XhdtdLVfgPOijF",
+          "name": "Google Meet",
+          "url": "https://meet.google.com",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757762582355
+        },
+        {
+          "id": "qQnlxQhTRn0b0zwDPuYbR",
+          "name": "Google Meet",
+          "url": "https://meet.google.com",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757766848791
+        },
+        {
+          "id": "hEOKmUgK4wZeDdgOPCOA2",
+          "name": "Google Meet",
+          "url": "https://meet.google.com",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757766850610
+        },
+        {
+          "id": "jkTX2DYo3CKK0VHojR5I9",
+          "name": "Zoom",
+          "url": "https://zoom.us",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757766852603
+        },
+        {
+          "id": "0ObyKozttruhK7vkXLR5Y",
+          "name": "Google",
+          "url": "https://google.in",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757773228089
+        },
+        {
+          "id": "4b8DrabUXy7iTkWpwZoxL",
+          "name": "Google Meet",
+          "url": "https://meet.google.com",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757773509360
+        },
+        {
+          "id": "_xjQwF4iGcfHIDFC2MYwv",
+          "name": "Google Meet",
+          "url": "https://meet.google.com",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757774003995
+        },
+        {
+          "id": "zaex_a4iSGCpBTUWV0qI0",
+          "name": "Amazon",
+          "url": "https://www.amazon.in/",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757774021172
+        },
+        {
+          "id": "Z1tezKMyAUqhEaDuEaSia",
+          "name": "Amazon",
+          "url": "https://www.amazon.in/",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757774021182
+        },
+        {
+          "id": "nbG3a4Hr6eXLKEkE1_--n",
+          "name": "Github",
+          "url": "https://github.com/",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757774059173
+        },
+        {
+          "id": "EooCsUYkG9n23-qZxc6_3",
+          "name": "Github",
+          "url": "https://github.com/",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757774059180
+        },
+        {
+          "id": "YV4qqql3eCL0gRcRIkiC4",
+          "name": "Amazon",
+          "url": "https://www.amazon.in",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757775882800
+        },
+        {
+          "id": "OuhgYkd65ML_VSX34v1Gn",
+          "name": "Amazon",
+          "url": "https://www.amazon.in",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757775882810
+        },
+        {
+          "id": "yNlwGvJMwPZ7AL2HDz7cU",
+          "name": "Amazon",
+          "url": "https://www.amazon.in/",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757785636636
+        },
+        {
+          "id": "kc58aDcYaY1EI4_hhSWi5",
+          "name": "Amazon",
+          "url": "https://www.amazon.in/",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1757785636644
+        }
+      ]
+    },
+    {
+      "id": "hB5Bnd-cXw97yZfQTr2Yd",
+      "username": "aachal1",
+      "password": "$2b$10$T3vU2ZyGYfq75zMStXb05.0AX.CVHT7Ae2LPTBq100tYzDGKnMuRe",
+      "apps": [
+        {
+          "id": "3e5UOU7E9vRC6xyHKGbjv",
+          "name": "Amazon",
+          "url": "https://Amazon.in",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1758860795144
+        },
+        {
+          "id": "K-sblBBG2qvi20ydqJwSS",
+          "name": "Google Meet",
+          "url": "https://meet.google.com",
+          "category": "Work",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1758860802020
+        },
+        {
+          "id": "lahoytzG9O8qxTmJNoxfG",
+          "name": "Amazon",
+          "url": "https://Amazon.in",
+          "category": "Work",
+          "provider": "",
+          "favorite": false,
+          "useCount": 0,
+          "lastOpened": null,
+          "createdAt": 1758861624015
+        }
+      ],
+      "usage": {}
+    }
+  ],
   {
-    "id": "229b720e-e245-4045-8012-5683551c5311",
-    "username": "aachal",
-    "password": "$2b$10$8KnD2kUWXPc0.FPGVG9i1uD0Wnxfj8V/fv9n150IQMRyR5SqtN8CK",
+    "id": "T3I6q0sPKII3s0JTwEbX8",
+    "username": "aachal1",
+    "password": "$2b$10$5k3SWR0FZER.kMdDdS/kL.DxLCR0NWl0PUddJs1Yh2pU.2ySWl4jy",
     "apps": [
       {
-        "id": "caluxU0XhdtdLVfgPOijF",
+        "id": "wb63FoPRBi29p4bSCxMu2",
         "name": "Google Meet",
         "url": "https://meet.google.com",
         "category": "Work",
+        "provider": "",
         "favorite": false,
         "useCount": 0,
         "lastOpened": null,
-        "createdAt": 1757762582355
-      },
-      {
-        "id": "qQnlxQhTRn0b0zwDPuYbR",
-        "name": "Google Meet",
-        "url": "https://meet.google.com",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757766848791
-      },
-      {
-        "id": "hEOKmUgK4wZeDdgOPCOA2",
-        "name": "Google Meet",
-        "url": "https://meet.google.com",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757766850610
-      },
-      {
-        "id": "jkTX2DYo3CKK0VHojR5I9",
-        "name": "Zoom",
-        "url": "https://zoom.us",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757766852603
-      },
-      {
-        "id": "0ObyKozttruhK7vkXLR5Y",
-        "name": "Google",
-        "url": "https://google.in",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757773228089
-      },
-      {
-        "id": "4b8DrabUXy7iTkWpwZoxL",
-        "name": "Google Meet",
-        "url": "https://meet.google.com",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757773509360
-      },
-      {
-        "id": "_xjQwF4iGcfHIDFC2MYwv",
-        "name": "Google Meet",
-        "url": "https://meet.google.com",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757774003995
-      },
-      {
-        "id": "zaex_a4iSGCpBTUWV0qI0",
-        "name": "Amazon",
-        "url": "https://www.amazon.in/",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757774021172
-      },
-      {
-        "id": "Z1tezKMyAUqhEaDuEaSia",
-        "name": "Amazon",
-        "url": "https://www.amazon.in/",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757774021182
-      },
-      {
-        "id": "nbG3a4Hr6eXLKEkE1_--n",
-        "name": "Github",
-        "url": "https://github.com/",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757774059173
-      },
-      {
-        "id": "EooCsUYkG9n23-qZxc6_3",
-        "name": "Github",
-        "url": "https://github.com/",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757774059180
-      },
-      {
-        "id": "YV4qqql3eCL0gRcRIkiC4",
-        "name": "Amazon",
-        "url": "https://www.amazon.in",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757775882800
-      },
-      {
-        "id": "OuhgYkd65ML_VSX34v1Gn",
-        "name": "Amazon",
-        "url": "https://www.amazon.in",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757775882810
-      },
-      {
-        "id": "yNlwGvJMwPZ7AL2HDz7cU",
-        "name": "Amazon",
-        "url": "https://www.amazon.in/",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757785636636
-      },
-      {
-        "id": "kc58aDcYaY1EI4_hhSWi5",
-        "name": "Amazon",
-        "url": "https://www.amazon.in/",
-        "category": "Work",
-        "favorite": false,
-        "useCount": 0,
-        "lastOpened": null,
-        "createdAt": 1757785636644
+        "createdAt": 1758863657990
       }
-    ]
+    ],
+    "usage": {}
   }
 ]

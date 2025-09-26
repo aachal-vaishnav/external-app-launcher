@@ -2,6 +2,7 @@
   <div id="app">
     <h1>External App Launcher</h1>
 
+    <!-- Authentication -->
     <div v-if="!token" class="auth-panel">
       <input v-model="username" placeholder="Username" />
       <input type="password" v-model="password" placeholder="Password" />
@@ -9,71 +10,117 @@
       <button @click="login">Login</button>
     </div>
 
-    <div v-else>
-      <h2>Welcome, {{ username }}</h2>
-      <button @click="sync">Sync with Server</button>
+    <div v-else class="app-shell">
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar">
+        <button @click="activeTab = 'workspace'" :class="{active: activeTab==='workspace'}">Workspace</button>
+        <button @click="activeTab = 'add'" :class="{active: activeTab==='add'}">Add App</button>
+        <button @click="activeTab = 'settings'" :class="{active: activeTab==='settings'}">Settings</button>
+        <button @click="activeTab = 'usage'" :class="{active: activeTab==='usage'}">Usage</button>
+        <button @click="logout">Logout</button>
+      </nav>
 
-      <AddAppForm @add-app="createApp" />
+      <!-- Main Content -->
+      <main class="main-view">
+        <!-- Workspace Tab -->
+        <MultiAppWorkspace
+          v-if="activeTab === 'workspace'"
+          :apps="apps"
+          @open-preview="previewApp = $event"
+          @edit-app="editApp"
+          @remove-app="removeApp"
+        />
 
-      <draggable v-model="apps" item-key="id">
-        <template #item="{element: app}">
-          <div class="app-item">
-            <span>{{ app.name }}</span>
-            <button @click="editApp(app)">Edit</button>
-            <button @click="removeApp(app)">Remove</button>
-            <button @click="openPreview(app)">Open</button>
-          </div>
-        </template>
-      </draggable>
+        <!-- Add App Tab -->
+        <AddAppForm
+          v-if="activeTab === 'add'"
+          @add-app="onAppAdded"
+        />
 
-      <h3>Suggestions</h3>
-      <div v-for="s in suggestions" :key="s.name">
-        <span>{{ s.name }}</span>
-        <button @click="addSuggestion(s)">Add</button>
-      </div>
+        <!-- Settings Tab -->
+        <SettingsPanel
+          v-if="activeTab === 'settings'"
+          :apps="apps"
+          @edit="editApp"
+          @remove="removeApp"
+          @start-oauth="selectedAppForOAuth = $event"
+        />
 
-      <div style="margin-top: 1rem;">
-        <button @click="exportPack">Export Pack</button>
-        <input type="file" @change="importPack" />
-      </div>
+        <!-- Usage Tab -->
+        <UsageDashboard
+          v-if="activeTab === 'usage'"
+          :apps="apps"
+        />
+      </main>
     </div>
 
+    <!-- Preview Overlay -->
     <IframePreview
-      v-if="previewAppObj"
-      :app="previewAppObj"
-      @close="closePreview"
-      @used="onUsed"
-    />
+  v-if="previewApp"
+  :app="previewApp"
+  @close="previewApp = null"
+  @used="onUsed"
+/>
+
+
+    <!-- OAuth Popup -->
+    <OAuthPopup
+  v-if="selectedAppForOAuth"
+  :appId="selectedAppForOAuth.id"
+  :provider="selectedAppForOAuth.provider"
+  @close="selectedAppForOAuth = null"
+/>
+
   </div>
 </template>
 
 <script>
 import AddAppForm from "./components/AddAppForm.vue";
+import MultiAppWorkspace from "./components/MultiAppWorkspace.vue";
+import SettingsPanel from "./components/SettingsPanel.vue";
+import UsageDashboard from "./components/UsageDashboard.vue";
+
 import IframePreview from "./components/IframePreview.vue";
-import API, { setToken } from "./services/api";
-import suggestions from "./data/suggestions.json";
-import { saveLocal, loadLocal, syncToServer } from "./services/sync";
-import draggable from "vuedraggable";
+
+import OAuthPopup from "./components/OAuthPopup.vue";
+import API, { setToken } from "./services/api.js";
 
 export default {
   name: "App",
-  components: { AddAppForm, IframePreview, draggable },
+  components: {
+    AddAppForm,
+    MultiAppWorkspace,
+    SettingsPanel,
+    UsageDashboard,
+    IframePreview,
+    OAuthPopup,
+  },
   data() {
     return {
       username: "",
       password: "",
-      token: null,
+      token: localStorage.getItem("eal_token") || null,
+      activeTab: "workspace",
+      previewApp: null,
+      selectedAppForOAuth: null,
       apps: [],
-      previewAppObj: null,
-      suggestions,
     };
+  },
+  mounted() {
+    if (this.token) {
+      setToken(this.token);
+      this.loadApps();
+    }
   },
   methods: {
     async register() {
       if (!this.username || !this.password) return alert("Username and password required");
       try {
-        await API.post("/api/auth/register", { username: this.username, password: this.password });
-        alert("Registered successfully!");
+        await API.post("/api/auth/register", {
+          username: this.username,
+          password: this.password,
+        });
+        alert("Registered successfully! Please login.");
       } catch (err) {
         alert("Register failed: " + (err.response?.data?.error || err.message));
       }
@@ -81,7 +128,10 @@ export default {
     async login() {
       if (!this.username || !this.password) return alert("Username and password required");
       try {
-        const res = await API.post("/api/auth/login", { username: this.username, password: this.password });
+        const res = await API.post("/api/auth/login", {
+          username: this.username,
+          password: this.password,
+        });
         this.token = res.data.token;
         setToken(this.token);
         localStorage.setItem("eal_token", this.token);
@@ -90,89 +140,153 @@ export default {
         alert("Login failed: " + (err.response?.data?.error || err.message));
       }
     },
+    logout() {
+      this.token = null;
+      localStorage.removeItem("eal_token");
+      setToken(null);
+      this.apps = [];
+      this.activeTab = "workspace";
+      this.username = "";
+      this.password = "";
+    },
     async loadApps() {
       try {
         const res = await API.get("/api/apps");
         this.apps = res.data;
-        saveLocal(this.apps);
-      } catch {
-        this.apps = loadLocal();
+      } catch (err) {
+        // fallback: localStorage or empty list
+        this.apps = JSON.parse(localStorage.getItem("eal_apps") || "[]");
       }
     },
-    sync() {
-      syncToServer(this.apps);
+    onAppAdded(app) {
+      // Add app to list and switch to workspace
+      this.apps.push(app);
+      localStorage.setItem("eal_apps", JSON.stringify(this.apps));
+      this.activeTab = "workspace";
     },
-    async createApp(app) {
-      const res = await API.post("/api/apps", app);
-      this.apps.push(res.data);
-      saveLocal(this.apps);
-    },
-    async removeApp(app) {
-      await API.delete(`/api/apps/${app.id}`);
-      this.apps = this.apps.filter(a => a.id !== app.id);
-      saveLocal(this.apps);
-    },
+    onUsed() {
+  if (!this.previewApp) return;
+  const app = this.apps.find(a => a.id === this.previewApp.id);
+  if (app) {
+    app.useCount = (app.useCount || 0) + 1;
+    localStorage.setItem("eal_apps", JSON.stringify(this.apps));
+  }
+},
+
     async editApp(app) {
       const newName = prompt("Edit Name:", app.name);
       const newUrl = prompt("Edit URL:", app.url);
       if (!newName || !newUrl) return;
-      const payload = { ...app, name: newName, url: newUrl };
-      const res = await API.put(`/api/apps/${app.id}`, payload);
-      const idx = this.apps.findIndex(a => a.id === app.id);
-      if (idx !== -1) this.apps[idx] = res.data;
-      saveLocal(this.apps);
-    },
-    openPreview(app) {
-      this.previewAppObj = app;
-    },
-    closePreview() {
-      this.previewAppObj = null;
-    },
-    onUsed() {
-      if (!this.previewAppObj) return;
-      const app = this.apps.find(a => a.id === this.previewAppObj.id);
-      if (app) {
-        app.useCount = (app.useCount || 0) + 1;
-        saveLocal(this.apps);
+
+      try {
+        const res = await API.put(`/api/apps/${app.id}`, {
+          ...app,
+          name: newName,
+          url: newUrl,
+        });
+        const idx = this.apps.findIndex(a => a.id === app.id);
+        if (idx !== -1) this.apps.splice(idx, 1, res.data);
+        localStorage.setItem("eal_apps", JSON.stringify(this.apps));
+      } catch (err) {
+        alert("Update failed: " + (err.response?.data?.error || err.message));
       }
     },
-    addSuggestion(s) {
-      this.createApp(s);
+    async removeApp(app) {
+      if (!confirm(`Are you sure you want to delete ${app.name}?`)) return;
+      try {
+        await API.delete(`/api/apps/${app.id}`);
+        this.apps = this.apps.filter(a => a.id !== app.id);
+        localStorage.setItem("eal_apps", JSON.stringify(this.apps));
+      } catch (err) {
+        alert("Delete failed: " + (err.response?.data?.error || err.message));
+      }
     },
-    exportPack() {
-      const blob = new Blob([JSON.stringify(this.apps, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "apps-pack.json";
-      a.click();
-    },
-    importPack(e) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        const pack = JSON.parse(reader.result);
-        pack.forEach(app => this.createApp(app));
-      };
-      reader.readAsText(file);
-    },
-  },
-  mounted() {
-    const storedToken = localStorage.getItem("eal_token");
-    if (storedToken) {
-      this.token = storedToken;
-      setToken(storedToken);
-      this.loadApps();
-    }
   },
 };
 </script>
 
-<style>
-@import "@/assets/css/nextcloud/base.css";
-@import "@/assets/css/nextcloud/buttons.css";
-@import "@/assets/css/nextcloud/forms.css";
-@import "@/assets/css/nextcloud/cards.css";
-@import "@/assets/css/nextcloud/modals.css";
-@import "@/assets/css/nextcloud/workspace.css";
+<style scoped>
+#app {
+  max-width: 900px;
+  margin: 2rem auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.auth-panel {
+  display: grid;
+  gap: 1rem;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+.auth-panel input {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.auth-panel button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.auth-panel button:hover {
+  background-color: #2563eb;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 600px;
+  gap: 1rem;
+}
+
+.sidebar {
+  flex-shrink: 0;
+  width: 180px;
+  background: #f3f4f6;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sidebar button {
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #e5e7eb;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.sidebar button.active,
+.sidebar button:hover {
+  background: #2563eb;
+  color: white;
+}
+
+.main-view {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
 </style>

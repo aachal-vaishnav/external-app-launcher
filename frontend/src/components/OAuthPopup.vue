@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <button @click="start">Connect</button>
+  <div class="oauth-connect">
+    <button class="connect-btn" @click="start">
+      🔗 Connect with {{ provider }}
+    </button>
   </div>
 </template>
 
@@ -12,7 +14,6 @@ export default {
   methods: {
     async start() {
       try {
-        // Start OAuth flow
         const res = await API.get(`/api/oauth/${this.provider}/start`, {
           params: { appId: this.appId }
         });
@@ -28,7 +29,6 @@ export default {
             const token = ev.data.token;
 
             try {
-              // Save token securely via API
               await API.post(`/api/apps/${this.appId}/credentials`, { secret: token });
               alert('Connected successfully');
             } catch (apiErr) {
@@ -50,11 +50,33 @@ export default {
   }
 };
 </script>
+
 <style scoped>
-@import "@/assets/css/nextcloud/base.css";
-@import "@/assets/css/nextcloud/buttons.css";
-@import "@/assets/css/nextcloud/forms.css";
-@import "@/assets/css/nextcloud/cards.css";
-@import "@/assets/css/nextcloud/modals.css";
-@import "@/assets/css/nextcloud/workspace.css";
+.oauth-connect {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.connect-btn {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.7rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.connect-btn:hover {
+  background-color: #2563eb;
+  transform: scale(1.02);
+}
+
+.connect-btn:active {
+  background-color: #1d4ed8;
+  transform: scale(0.98);
+}
 </style>

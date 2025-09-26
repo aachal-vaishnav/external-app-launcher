@@ -8,17 +8,22 @@
       </div>
     </div>
     <div class="body">
-      <div v-if="!activated" class="overlay" @click="activated=true">
+      <div v-if="!activated" class="overlay" @click="activated = true">
         <div class="warn">Click to activate content (sandboxed)</div>
       </div>
-      <iframe :src="src" :sandbox="sandboxAttrs" ref="frame" style="width:100%;height:100%;border:0;"></iframe>
+      <iframe
+        :src="src"
+        :sandbox="sandboxAttrs"
+        ref="frame"
+        style="width:100%;height:100%;border:0;"
+      ></iframe>
     </div>
     <div class="resizer" @pointerdown="startResize"></div>
   </div>
 </template>
 
 <script>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, watch, computed } from 'vue';
 
 export default {
   props: ['title', 'src', 'visible', 'x', 'y', 'w', 'h'],
@@ -37,10 +42,9 @@ export default {
     let start = {};
     const activated = ref(false);
 
-    // sync with parent prop
     watch(() => props.visible, (newVal) => visibleLocal.value = newVal);
 
-    const styleObj = () => ({
+    const styleObj = computed(() => ({
       position: 'fixed',
       left: pos.x + 'px',
       top: pos.y + 'px',
@@ -49,9 +53,10 @@ export default {
       zIndex: 9999,
       boxShadow: '0 8px 30px rgba(0,0,0,.3)',
       background: '#fff',
-      borderRadius: '8px',
-      overflow: 'hidden'
-    });
+      borderRadius: '10px',
+      overflow: 'hidden',
+      transition: 'box-shadow 0.3s ease'
+    }));
 
     function startDrag(e) {
       dragging.value = true;
@@ -121,10 +126,89 @@ export default {
 </script>
 
 <style scoped>
-@import "@/assets/css/nextcloud/base.css";
-@import "@/assets/css/nextcloud/buttons.css";
-@import "@/assets/css/nextcloud/forms.css";
-@import "@/assets/css/nextcloud/cards.css";
-@import "@/assets/css/nextcloud/modals.css";
-@import "@/assets/css/nextcloud/workspace.css";
+.mini {
+  animation: fadeIn 0.3s ease;
+}
+
+.hdr {
+  background: #f3f4f6;
+  padding: 0.6rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+  cursor: move;
+  user-select: none;
+}
+
+.hdr-actions button {
+  margin-left: 0.5rem;
+  background: #e5e7eb;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hdr-actions button:hover {
+  background-color: #d1d5db;
+}
+
+.body {
+  position: relative;
+  height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.warn {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  z-index: 1;
+}
+
+.resizer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  background: #e5e7eb;
+  cursor: nwse-resize;
+  z-index: 20;
+  border-top-left-radius: 4px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 </style>
